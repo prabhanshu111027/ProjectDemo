@@ -1,18 +1,6 @@
 package com.example.demo.model;
 
 public class Order {
-	public Order() {
-
-	}
-
-	public Order(long id, String itemName, int quantity, double price) {
-		super();
-		this.id = id;
-		this.itemName = itemName;
-		this.quantity = quantity;
-		this.price = price;
-	}
-
 	private long id;
 	private String itemName;
 	private int quantity;

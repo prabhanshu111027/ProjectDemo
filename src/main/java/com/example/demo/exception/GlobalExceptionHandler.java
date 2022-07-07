@@ -7,15 +7,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-	private static final Logger LOGGER = LoggerFactory.getLogger(
-            GlobalExceptionHandler.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-@ExceptionHandler()
-public String handleConnectionError(Exception ex) {
-
-LOGGER.error(ex.getMessage(), ex);
-
-return "connect_error";
-}
+	@ExceptionHandler()
+	public String handleConnectionError(Exception ex) {
+		LOGGER.error(ex.getMessage(), ex);
+		return "Exceptions";
+	}
 
 }

@@ -8,12 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.model.ResponceOrder;
-import com.example.demo.model.Order;
-import com.example.demo.model.RequestOrderItems;
+import com.example.demo.model.RequestOrders;
 import com.example.demo.service.OrderServiceImpl;
 
 @RestController
@@ -30,26 +27,13 @@ public class OrderController {
 	 */
 
 	@PostMapping(path = "{customerName}/orders")
-	public ResponseEntity<ResponceOrder> filterOrder(@PathVariable String customerName,
-			@RequestBody RequestOrderItems orders) {
+	public ResponseEntity<Object> filterOrder(@PathVariable String customerName, @RequestBody RequestOrders orders) {
 		LOGGER.info("filterOrder Method of controller started ");
 		try {
-		if (orders != null && !orders.getOrderlist().isEmpty()) {
-			orders.getOrderlist().forEach(order -> {
-				Order placedOrder = new Order(order.getId(), order.getItemName(), order.getQuantity(),
-						order.getPrice());
-
-				orderServiceImpl.createOrder(placedOrder);
-
-			});
-			LOGGER.info("filterOrder Method of controller Ended ");
-		}
-
-		return new ResponseEntity<ResponceOrder>(
-				orderServiceImpl.filterOrderDetails(orderServiceImpl.getOrderList(), customerName), HttpStatus.OK);
+			return new ResponseEntity<Object>(orderServiceImpl.filterOrderDetails(orders, customerName), HttpStatus.OK);
 		} catch (Exception e) {
-		      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		    }
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 }
