@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -16,17 +18,12 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public ResponseOrders filterOrderDetails(RequestOrders orders, String customerName) {
 		LOGGER.info("filterOrderDetails Seervice started");
-		List<Order> listOrders = orders.getOrders();
-		listOrders.forEach(order -> {
-			Order filterOrder = listOrders.stream().filter(x -> (order.getPrice() >= 100)).findAny().orElse(null);
-			order.setItemName(filterOrder.getItemName());
-			order.setPrice(filterOrder.getPrice());
-			order.setCustomerName(customerName);
-			listOrders.add(order);
-		});
-
 		ResponseOrders resorders = new ResponseOrders();
-		resorders.setOrders(null);
+		List<Order> listOrders = orders.getOrders();
+		List<Order> filterOrders = listOrders.stream().filter(order -> (order.getPrice() >= 100))
+				.collect(Collectors.toList());
+		resorders.setCustomerName(customerName);
+		resorders.setOrders(filterOrders);
 		LOGGER.info("filterOrderDetails Seervice ENDS");
 		return resorders;
 	}
