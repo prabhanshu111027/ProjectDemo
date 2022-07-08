@@ -1,13 +1,11 @@
 package com.example.demo.service;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.model.OrderDetailsResponse;
 import com.example.demo.model.RequestOrders;
 import com.example.demo.model.ResponseOrders;
 import com.example.demo.model.Order;
@@ -20,14 +18,13 @@ public class OrderServiceImpl implements OrderService {
 	public ResponseOrders filterOrderDetails(RequestOrders orders, String customerName) {
 		LOGGER.info("filterOrderDetails Seervice started");
 		HashSet<Order> orderList = new HashSet<Order>();
-		List<OrderDetailsResponse> listOrders = new ArrayList();
+		List<Order> listOrders = orders.getOrders();
 		((Iterable<Order>) orders).forEach(order -> {
-			OrderDetailsResponse orderResponse = new OrderDetailsResponse();
-			Order filterOrder = orderList.stream().filter(x -> (order.getPrice() >= 100)).findAny().orElse(null);
-			orderResponse.setItemName(filterOrder.getItemName());
-			orderResponse.setPrice(filterOrder.getPrice());
-			orderResponse.setCustomer(customerName);
-			listOrders.add(orderResponse);
+			Order filterOrder = listOrders.stream().filter(x -> (order.getPrice() >= 100)).findAny().orElse(null);
+			order.setItemName(filterOrder.getItemName());
+			order.setPrice(filterOrder.getPrice());
+			order.setCustomerName(customerName);
+			listOrders.add(order);
 		});
 
 		ResponseOrders resorders = new ResponseOrders();
