@@ -17,7 +17,7 @@ public class OrderServiceImpl implements OrderService {
 	public ResponseOrders filterOrderDetails(RequestOrders orders, String customerName) {
 		LOGGER.info("filterOrderDetails Seervice started");
 		List<Order> listOrders = orders.getOrders();
-		((Iterable<Order>) orders).forEach(order -> {
+		listOrders.forEach(order -> {
 			Order filterOrder = listOrders.stream().filter(x -> (order.getPrice() >= 100)).findAny().orElse(null);
 			order.setItemName(filterOrder.getItemName());
 			order.setPrice(filterOrder.getPrice());
