@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import java.util.HashSet;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +16,6 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public ResponseOrders filterOrderDetails(RequestOrders orders, String customerName) {
 		LOGGER.info("filterOrderDetails Seervice started");
-		HashSet<Order> orderList = new HashSet<Order>();
 		List<Order> listOrders = orders.getOrders();
 		((Iterable<Order>) orders).forEach(order -> {
 			Order filterOrder = listOrders.stream().filter(x -> (order.getPrice() >= 100)).findAny().orElse(null);
